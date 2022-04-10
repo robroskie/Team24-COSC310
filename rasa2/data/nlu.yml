@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.1"
 
 nlu:
 - intent: greet
@@ -146,12 +146,12 @@ nlu:
     - I am [Gary](name)
     - name is [Luke](name)
 
-- intent: what_is_my_name
-  examples: |
-    - What is my name?
-    - Do you remember what my name is?
-    - Who am I?
-    - What's my name?
+# - intent: what_is_my_name
+#   examples: |
+#     - What is my name?
+#     - Do you remember what my name is?
+#     - Who am I?
+#     - What's my name?
 
 - intent: what_canU_do
   examples: |
@@ -281,6 +281,13 @@ nlu:
     - 1 way
 
 
+- intent: get_nearby_hotel
+  examples: |
+    - What is nearby the hotel [Vancouver](nearby_hotel)?
+    - What is nearby the [Vancouver](nearby_hotel)?
+    - Looking for things nearby the [Vancouver](nearby_hotel)?
+
+
 ###############################################################################
 
 ##### Out scope
@@ -356,3 +363,8 @@ nlu:
 #### 
 
 ################################################################################
+
+###############################################################################
+#things nearby the hotel address intents
+###############################################################################
+

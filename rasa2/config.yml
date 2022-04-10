@@ -9,9 +9,10 @@ language: en
 pipeline:
   # - name: "spellchecker.CorrectSpelling"
   - name: SpacyNLP
+    model: en_core_web_md
   - name: SpacyTokenizer
   - name: SpacyFeaturizer
-  - name: "WhitespaceTokenizer"
+  # - name: "WhitespaceTokenizer"
   - name: "RegexFeaturizer"
   - name: "LexicalSyntacticFeaturizer"
   - name: "CountVectorsFeaturizer"
@@ -27,4 +28,5 @@ pipeline:
 
 policies:
   - name: MemoizationPolicy
+    max_history: 0
   - name: RulePolicy

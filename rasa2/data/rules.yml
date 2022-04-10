@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.1"
 
 rules:
 - rule: meet_greet
@@ -25,13 +25,13 @@ rules:
   steps:
     - intent: city_info
     - action: action_get_weather
-    - action: action_slot_reset
+    # - action: action_slot_reset
 
 - rule: get weather quick
   steps:
     - intent: weather_for_loc
     - action: action_get_weather
-    - action: action_slot_reset
+    # - action: action_slot_reset
 
 - rule: done
   steps: 
@@ -55,11 +55,11 @@ rules:
     - intent: what_canU_do
     - action: utter_functionality
 
-- rule: thanks
-  steps:
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - rule: thanks
+#   steps:
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
 ###############################################################################
 # RULES FOR Hotel search
@@ -78,31 +78,31 @@ rules:
     - action: hotel_form
     - active_loop: null
     - action: action_hotelForm
-    - action: action_slot_reset
+    # - action: action_slot_reset
 
 ###############################################################################
 # RULES FOR Flight booking form round trip version
 ###############################################################################
-- rule: bookf
-  steps:
-  - intent: flight_book
-  - action: utter_flight_return
+# - rule: bookf
+#   steps:
+#   - intent: flight_book
+#   - action: utter_flight_return
 
-- rule: activate flight form1
-  steps:
-  - intent: round_trip
-  - action: flight_form1
-  - active_loop: flight_form1
+# - rule: activate flight form1
+#   steps:
+#   - intent: round_trip
+#   - action: flight_form1
+#   - active_loop: flight_form1
 
 
-- rule: submit flight form1
-  condition:
-  - active_loop: flight_form1
-  steps:
-    - action: flight_form1
-    - active_loop: null
-    - action: action_flight_form1
-    - action: action_slot_reset
+# - rule: submit flight form1
+#   condition:
+#   - active_loop: flight_form1
+#   steps:
+#     - action: flight_form1
+#     - active_loop: null
+#     - action: action_flight_form1
+#     # - action: action_slot_reset
 
 
 
@@ -110,23 +110,34 @@ rules:
 # RULES FOR Flight booking form one-way trip version
 ###############################################################################
 
-- rule: activate flight form2
-  steps:
-  - intent: one_way
-  - action: flight_form2
-  - active_loop: flight_form2
+# - rule: activate flight form2
+#   steps:
+#   - intent: one_way
+#   - action: flight_form2
+#   - active_loop: flight_form2
 
-- rule: submit flight form2
-  condition:
-  - active_loop: flight_form2
-  steps:
-    - action: flight_form2
-    - active_loop: null
-    - action: action_flight_form2
-    - action: action_slot_reset
+# - rule: submit flight form2
+#   condition:
+#   - active_loop: flight_form2
+#   steps:
+#     - action: flight_form2
+#     - active_loop: null
+#     - action: action_flight_form2
+#     # - action: action_slot_reset
 
 
-- rule: out-of-scope
+# - rule: out-of-scope
+#   steps:
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+
+
+###############################################################################
+# RULES FOR getting nearby hotel results
+##############################################################################
+
+- rule: get nearby hotel
   steps:
-    - intent: out_of_scope
-    - action: utter_out_of_scope
+    - intent: get_nearby_hotel
+    - action: get_nearby_results
+    - action: action_reset_slot

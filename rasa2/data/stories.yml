@@ -1,13 +1,13 @@
-version: "3.0"
+version: "3.1"
 
 stories:
 
-- story: greetBad
-  steps:
-    - intent: greet
-    - action: utter_greet_reply
-    - intent: mood_bad
-    - action: utter_howruB
+# - story: greetBad
+#   steps:
+#     - intent: greet
+#     - action: utter_greet_reply
+#     - intent: mood_bad
+#     - action: utter_howruB
     
 - story: greetGood
   steps:
@@ -16,35 +16,35 @@ stories:
     - intent: mood_great
     - action: utter_howru
 
-- story: greetName
-  steps:
-    - intent: bot_name
-    - action: utter_name
-    - intent: name
-      entities:
-        - name: Dingus
-    - action: utter_nice_2meet
+# - story: greetName
+#   steps:
+#     - intent: bot_name
+#     - action: utter_name
+#     - intent: name
+#       entities:
+#         - name: Dingus
+#     - action: utter_nice_2meet
 
-- story: get_weather
-  steps: 
+# - story: get_weather
+#   steps: 
 
-    - intent: weather
-    - action: utter_ask_weather_location
-    - intent: city_info
-    - action: action_get_weather
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+#     - intent: weather
+#     - action: utter_ask_weather_location
+#     - intent: city_info
+#     - action: action_get_weather
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: get_weather_short
-  steps:
-    - intent: weather_for_loc
-      entities:
-        - weather_loc: London
-    - action: action_get_weather
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: get_weather_short
+#   steps:
+#     - intent: weather_for_loc
+#       entities:
+#         - weather_loc: London
+#     - action: action_get_weather
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
 ###############################################################################
 # Stories FOR Hotel search
@@ -56,208 +56,217 @@ stories:
     - active_loop: hotel_form
     - active_loop: null
     - action: action_hotelForm
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+    # - intent: thanks
+    # - action: utter_welcome
+    - intent: nearby_hotel
+    - action: utter_which_hotel
 
-- story: hotelBook_happyP1
-  steps:
-    - intent: hotel_book
-    - action: hotel_form
-    - active_loop: hotel_form
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: affirm
-    - action: hotel_form
-    - active_loop: null
-    - action: action_hotelForm
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+###############################################################################
+# Stories FOR What is Nearby Hotel search
+###############################################################################
+# - story: nearby_hotel
+#   steps:
+#     - intent: get_nearby_hotel
+#     - action: get_nearby_results
 
-- story: hotelBook_sadP2
-  steps:
-    - intent: hotel_book
-    - action: hotel_form
-    - active_loop: hotel_form
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: deny
-    - action: utter_goodbye
+# - story: hotelBook_happyP1
+#   steps:
+#     - intent: hotel_book
+#     - action: hotel_form
+#     - active_loop: hotel_form
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: affirm
+#     - action: hotel_form
+#     - active_loop: null
+#     - action: action_hotelForm
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
+
+# - story: hotelBook_sadP2
+#   steps:
+#     - intent: hotel_book
+#     - action: hotel_form
+#     - active_loop: hotel_form
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: deny
+#     - action: utter_goodbye
 
 ###############################################################################
 # Stories for Flight round trip search
 ###############################################################################
 
-- story: flightBook1 happy1
-  steps:
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - active_loop: null
-    - action: action_flight_form1
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook1 happy1
+#   steps:
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - active_loop: null
+#     - action: action_flight_form1
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook1 sadP1
-  steps: 
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: affirm
-    - action: flight_form1
-    - active_loop: null
-    - action: action_flight_form1
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook1 sadP1
+#   steps: 
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: affirm
+#     - action: flight_form1
+#     - active_loop: null
+#     - action: action_flight_form1
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook1 sadP2
-  steps:
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: deny
-    - action: utter_goodbye
+# - story: flightBook1 sadP2
+#   steps:
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: deny
+#     - action: utter_goodbye
 
 
-- story: flightBook1 happy2
-  steps: 
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - active_loop: null
-    - action: action_flight_form1
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook1 happy2
+#   steps: 
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - active_loop: null
+#     - action: action_flight_form1
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook1 sadP3
-  steps:
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: affirm
-    - action: flight_form1
-    - active_loop: null
-    - action: action_flight_form1
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook1 sadP3
+#   steps:
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: affirm
+#     - action: flight_form1
+#     - active_loop: null
+#     - action: action_flight_form1
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook1 sadP4
-  steps:
-    - intent: round_trip
-    - action: flight_form1
-    - active_loop: flight_form1
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: deny
-    - action: utter_goodbye
+# - story: flightBook1 sadP4
+#   steps:
+#     - intent: round_trip
+#     - action: flight_form1
+#     - active_loop: flight_form1
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: deny
+#     - action: utter_goodbye
 
 
 ###############################################################################
 # Stories for Flight one-way search
 ###############################################################################
 
-- story: flightBook2 happy1
-  steps:
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - active_loop: null
-    - action: action_flight_form2
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook2 happy1
+#   steps:
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - active_loop: null
+#     - action: action_flight_form2
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook2 sadP1
-  steps: 
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: affirm
-    - action: flight_form2
-    - active_loop: null
-    - action: action_flight_form2
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook2 sadP1
+#   steps: 
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: affirm
+#     - action: flight_form2
+#     - active_loop: null
+#     - action: action_flight_form2
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook2 sadP2
-  steps:
-    - intent: flight_book
-    - action: utter_flight_return
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: deny
-    - action: utter_goodbye
+# - story: flightBook2 sadP2
+#   steps:
+#     - intent: flight_book
+#     - action: utter_flight_return
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: deny
+#     - action: utter_goodbye
 
 
-- story: flightBook2 happy2
-  steps: 
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - active_loop: null
-    - action: action_flight_form2
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook2 happy2
+#   steps: 
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - active_loop: null
+#     - action: action_flight_form2
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook2 sadP3
-  steps:
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: affirm
-    - action: flight_form2
-    - active_loop: null
-    - action: action_flight_form2
-    - intent: thanks
-    - action: utter_welcome
-    - action: utter_ask_continue
+# - story: flightBook2 sadP3
+#   steps:
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: affirm
+#     - action: flight_form2
+#     - active_loop: null
+#     - action: action_flight_form2
+#     - intent: thanks
+#     - action: utter_welcome
+#     - action: utter_ask_continue
 
-- story: flightBook2 sadP4
-  steps:
-    - intent: one_way
-    - action: flight_form2
-    - active_loop: flight_form2
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: utter_ask_continue
-    - intent: deny
-    - action: utter_goodbye
+# - story: flightBook2 sadP4
+#   steps:
+#     - intent: one_way
+#     - action: flight_form2
+#     - active_loop: flight_form2
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+#     - action: utter_ask_continue
+#     - intent: deny
+#     - action: utter_goodbye

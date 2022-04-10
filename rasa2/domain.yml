@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.1"
 
 intents:
   - greet
@@ -24,6 +24,7 @@ intents:
   - round_trip
   - one_way
   - out_of_scope
+  - get_nearby_hotel
 
 entities: 
   - weather_loc
@@ -31,6 +32,7 @@ entities:
   - name
   - hotel_location
   - number
+  - nearby_hotel
 
 slots:
   weather_location:
@@ -125,9 +127,56 @@ slots:
     - type: from_entity
       entity: date
 
+  nearby_hotel:
+    type: any
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: nearby_hotel
+
+# Filled with the hotel results from the custom action api call
+  hotel_returned_1:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_2:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_3:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_4:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_5:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_6:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_7:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_8:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_9:
+    type: text
+    mappings:
+    - type: custom
+  hotel_returned_10:
+    type: text
+    mappings:
+    - type: custom
 
 forms:
-
   hotel_form:
     ignored_intents:
     - greet
@@ -270,6 +319,8 @@ responses:
 
 ############################################
 #flight book utterances#
+  utter_which_hotel:
+  - text: Would you like to know what is near any of the above hotels?
 
   utter_flight_return:
   - text: are you looking for a one way or round trip flight?
@@ -294,6 +345,7 @@ responses:
   - text: What day do you want to return on?
 
 actions: 
+  - action_reset_slot
   - utter_howdy
   - utter_ask_weather_location
   - utter_welcome
@@ -323,7 +375,7 @@ actions:
   - action_flight_form2
   - action_slot_reset
   - action_chat_restart
-
+  - get_nearby_results
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

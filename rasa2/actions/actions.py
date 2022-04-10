@@ -90,7 +90,9 @@ class ActionSubmitHotelForm(Action):
             'x-rapidapi-key': "90a274727dmsh607a63ae7dd7473p12f953jsn5e3fb6071646"
         }
        response = requests.request("GET", url2, headers=headers, params=querystring2).json()
-       print(response)
+    #    print(response)
+       temp = []
+       
        string_builder = ''
        for list_result in response['result']:
            hotel_id = list_result['hotel_name']
@@ -98,6 +100,7 @@ class ActionSubmitHotelForm(Action):
            discounted_amount = list_result['composite_price_breakdown']
            string_builder += '<b>' + hotel_id + '</b><br>\n'
            string_builder += ' ' + str(net_amount['value']) + ' ' + net_amount['currency'] + ' per night<br>\n'
+
            if 'discounted_amount' in list_result['composite_price_breakdown']:
                string_builder += ' ' +  str(discounted_amount['discounted_amount']['value']) + ' ' + discounted_amount['discounted_amount']['currency'] + ' discount!<br>\n'
            else:
@@ -105,10 +108,23 @@ class ActionSubmitHotelForm(Action):
                string_builder += ' ' +  'No discounts!<br>\n'
                
            string_builder += ' ' + list_result['distance_to_cc'] + 'km to the city center<br>\n'
+           temp.append('{name} : {address} {city}'.format(name = list_result['hotel_name'], address = list_result['address_trans'], city = list_result['city_trans']))
+       
+       i = 0
+       slotsetTemp = []
+       while i < len(temp) and i < 10:
+            slot_to_set = "hotel_returned_" + str(i+1)
+            slotsetTemp.append(SlotSet(slot_to_set, temp[i]))
+            i += 1
+
+
+
        dispatcher.utter_message(text = string_builder)
-       return []
-       
-       
+
+
+
+
+       return slotsetTemp
 
 
 
@@ -305,3 +321,41 @@ class ActionSubmitFlightForm2(Action):
         return []
     
 
+class ActiongetNearby(Action):
+     
+     
+    def name(self) -> Text:
+        return "get_nearby_results"
+        
+    # @staticmethod
+    # def required_slots(tracker: Tracker) -> List[Text]:
+    #     return ["hotel_returned_1", "hotel_returned_2", "hotel_returned_3", "hotel_returned_4", "hotel_returned_5",
+    #     "hotel_returned_6", "hotel_returned_7", "hotel_returned_8", "hotel_returned_9", "hotel_returned_10"]
+    
+
+    
+    def run(self, dispatcher, tracker, domain):
+
+        get_hotel = str(tracker.get_slot('nearby_hotel'))
+
+        dispatcher.utter_message(text = ("we are here my friend!" + get_hotel))
+    
+        return []
+
+       
+       
+# I want to book a hotel
+# I want to stay in Vancouver
+# 2022-04-20
+# 1
+# 1
+# 2022-04-25
+# What is nearby the Vancouver hotel?
+
+class ResetSlot(Action):
+
+    def name(self):
+        return "action_reset_slot"
+
+    def run(self, dispatcher, tracker, domain):
+        return [SlotSet("nearby_hotel", None)]
