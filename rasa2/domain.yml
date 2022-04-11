@@ -233,6 +233,8 @@ forms:
     - departure_date
 
 responses:
+  utter_nearby_hotel:
+  - text: Type of name of any of the hotels if you want more information about one.
 
   utter_howdy:
   - text: Howdy Human!

@@ -1,7 +1,11 @@
-## Team24-COSC310
+## COSC310 - Solo Assignment #4
 
+## Google Geocoding API
+This was implemented to convert addresses into latitude/longitude coordinates for uses with the second API
 
-Flight Booking Chatbot 
+## 
+
+## Flight Booking Chatbot 
 
 An application used to help a user find the perfect flight for them.
 Built using html, CSS, Python and Flask.

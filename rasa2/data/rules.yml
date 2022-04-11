@@ -126,7 +126,7 @@ rules:
 #     # - action: action_slot_reset
 
 
-# - rule: out-of-scope
+# - rule: out-of-fwr
 #   steps:
 #     - intent: out_of_scope
 #     - action: utter_out_of_scope
@@ -140,4 +140,4 @@ rules:
   steps:
     - intent: get_nearby_hotel
     - action: get_nearby_results
-    - action: action_reset_slot
+    # - action: action_reset_slot

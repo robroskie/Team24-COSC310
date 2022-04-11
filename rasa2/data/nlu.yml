@@ -283,9 +283,11 @@ nlu:
 
 - intent: get_nearby_hotel
   examples: |
-    - What is nearby the hotel [Vancouver](nearby_hotel)?
-    - What is nearby the [Vancouver](nearby_hotel)?
-    - Looking for things nearby the [Vancouver](nearby_hotel)?
+    - What is nearby the  [vancouver](nearby_hotel) hotel?
+    - What is close to the [vancouver vancouver](nearby_hotel)?
+    - What is near the hotel [vancouver vancouver vancouver](nearby_hotel)?
+    - What is around the  [vancouver vancouver vancouver vancouver](nearby_hotel) hotel?
+    - Looking for things nearby the [vancouver](nearby_hotel)?
 
 
 ###############################################################################
