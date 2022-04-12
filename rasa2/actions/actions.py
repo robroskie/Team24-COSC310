@@ -108,13 +108,13 @@ class ActionSubmitHotelForm(Action):
                string_builder += ' ' +  'No discounts!<br>\n'
                
            string_builder += ' ' + list_result['distance_to_cc'] + 'km to the city center<br>\n'
-           temp.append('{name} : {address} {city}'.format(name = list_result['hotel_name'], address = list_result['address_trans'], city = list_result['city_trans']))
+           temp.append('"{name}" : "{address} {city}"'.format(name = list_result['hotel_name'], address = list_result['address_trans'], city = list_result['city_trans']))
        
        i = 0
        slotsetTemp = []
        while i < len(temp) and i < 10:
             slot_to_set = "hotel_returned_" + str(i+1)
-            slotsetTemp.append(SlotSet(slot_to_set, temp[i]))
+            slotsetTemp.append(SlotSet(slot_to_set, '{' + temp[i] +'}'))
             i += 1
 
     #    SlotSet("hotel_returned_1", string_builder)
@@ -323,39 +323,54 @@ class ActionSubmitFlightForm2(Action):
 
 class ActiongetNearby(Action):
      
-     
     def name(self) -> Text:
         return "get_nearby_results"
         
-    # @staticmethod
-    # def required_slots(tracker: Tracker) -> List[Text]:
-    #     return ["hotel_returned_1", "hotel_returned_2", "hotel_returned_3", "hotel_returned_4", "hotel_returned_5",
-    #     "hotel_returned_6", "hotel_returned_7", "hotel_returned_8", "hotel_returned_9", "hotel_returned_10"]
-    
-
     def run(self, dispatcher, tracker, domain):
         string_builder = ''
 
-        hotel1 = tracker.get_slot('hotel_returned_1')
-        hotel2 = tracker.get_slot('hotel_returned_2')
-        hotel3 = tracker.get_slot('hotel_returned_3')
-        hotel4 = tracker.get_slot('hotel_returned_4')
-        hotel5 = tracker.get_slot('hotel_returned_5')
-        hotel6 = tracker.get_slot('hotel_returned_6')
-        hotel7 = tracker.get_slot('hotel_returned_7')
-        hotel8 = tracker.get_slot('hotel_returned_8')
-        hotel9 = tracker.get_slot('hotel_returned_9')
-    
-        get_hotel = str(tracker.get_slot('nearby_hotel'))
+        hotel1 = tracker.get_slot('hotel_returned_1').lower()
+        hotel2 = tracker.get_slot('hotel_returned_2').lower()
+        hotel3 = tracker.get_slot('hotel_returned_3').lower()
+        hotel4 = tracker.get_slot('hotel_returned_4').lower()
+        hotel5 = tracker.get_slot('hotel_returned_5').lower()
+        hotel6 = tracker.get_slot('hotel_returned_6').lower()
+        hotel7 = tracker.get_slot('hotel_returned_7').lower()
+        hotel8 = tracker.get_slot('hotel_returned_8').lower()
+        hotel9 = tracker.get_slot('hotel_returned_9').lower()
 
-        # dispatcher.utter_message(text = ("we are here my friend!" + get_hotel))
+        hotel1Dict = json.loads(hotel1)
+        hotel2Dict = json.loads(hotel2)
+        hotel3Dict = json.loads(hotel3)
+        hotel4Dict = json.loads(hotel4)
+        hotel5Dict = json.loads(hotel5)
+        hotel6Dict = json.loads(hotel6)
+        hotel7Dict = json.loads(hotel7)
+        hotel8Dict = json.loads(hotel8)
+        hotel9Dict = json.loads(hotel9)
+
+        # get_hotel = str(tracker.get_slot('nearby_hotel'))
+
+        # For testing
+        get_hotel = 'Pinnacle Hotel Harbourfront'
+        
+        all_hotels = [hotel1, hotel2, hotel3, hotel4, hotel5, hotel6, hotel7, hotel8, hotel9]
+        all_hotelsDict = [hotel1Dict, hotel2Dict, hotel3Dict, hotel4Dict, hotel5Dict, hotel6Dict, hotel7Dict, hotel8Dict, hotel9Dict]
+
+        # Find the address for the get_hotel contained in the nearby_hotel slot (from user input)
+        i = 0
+        address = 'Hotel address not found'
+        while i < len(all_hotels):
+            if(get_hotel.lower() in all_hotels[i]):
+                address = all_hotelsDict[i][get_hotel.lower()]
+            i += 1
 
         url = "https://google-maps-geocoding.p.rapidapi.com/geocode/json"
 
-        querystring = {"address":"8181 Cambie Rd., Richmond, BC V6X 3X9","language":"en"}
+        querystring = {"address" : address, "language" : "en"}
         headers = {
-        'x-rapidapi-host': "google-maps-geocoding.p.rapidapi.com",
-        'x-rapidapi-key': "90a274727dmsh607a63ae7dd7473p12f953jsn5e3fb6071646"
+            'x-rapidapi-host': "google-maps-geocoding.p.rapidapi.com",
+            'x-rapidapi-key': "90a274727dmsh607a63ae7dd7473p12f953jsn5e3fb6071646"
         }
         response = requests.request("GET", url, headers=headers, params=querystring)
         data = json.loads(response.text)
@@ -372,40 +387,55 @@ class ActiongetNearby(Action):
             "X-RapidAPI-Key": "90a274727dmsh607a63ae7dd7473p12f953jsn5e3fb6071646"
         }
 
-        response = requests.request("GET", url, headers=headers, params=querystring).json()
+        # response = requests.request("GET", url, headers=headers, params=querystring).json()
         # print(response)
         # string_builder = ''
-        for list_results in response['data']:
-            toadd = True
-            if 'name' not in list_results:
-                toadd = False
-            if 'address' not in list_results:
-                toadd = False
-            if 'distance' not in list_results:
-                toadd = False
-            if 'cuisine' not in list_results:
-                toadd = False
-            if 'ranking' not in list_results:
-                toadd = False
-            if toadd == True:
-                if len(list_results['cuisine']) == 0:
-                    toadd = False
-            if toadd == True:
-                print(list_results['name'])
-                print(list_results['address'])
-                print(list_results['cuisine'][0]['name'])
-                print(str(round(float(list_results['distance'])*100,2))+"km away")
-                print(list_results['ranking'] + "\n")
+        # for list_results in response['data']:
+        #     toadd = True
+        #     if 'name' not in list_results:
+        #         toadd = False
+        #     if 'address' not in list_results:
+        #         toadd = False
+        #     if 'distance' not in list_results:
+        #         toadd = False
+        #     if 'cuisine' not in list_results:
+        #         toadd = False
+        #     if 'ranking' not in list_results:
+        #         toadd = False
+        #     if toadd == True:
+        #         if len(list_results['cuisine']) == 0:
+        #             toadd = False
+        #     if toadd == True:
+        #         print(list_results['name'])
+        #         print(list_results['address'])
+        #         print(list_results['cuisine'][0]['name'])
+        #         print(str(round(float(list_results['distance'])*100,2))+"km away")
+        #         print(list_results['ranking'] + "\n")
 
-                string_builder += '<b>' + list_results['name'] + '</b><br>\n'
-                string_builder += '<b>' + list_results['address'] + '</b><br>\n'
-                string_builder += '<b>' + list_results['cuisine'][0]['name'] + '</b><br>\n'
-                string_builder += '<b>' + str(round(float(list_results['distance'])*100,2))+"km away" + '</b><br>\n'
-                string_builder += '<b>' + list_results['ranking'] + '</b><br><br>\n'
-        print(string_builder)
-        dispatcher.utter_message(string_builder)
+        #         string_builder += '<b>' + list_results['name'] + '</b><br>\n'
+        #         string_builder += '<b>' + list_results['address'] + '</b><br>\n'
+        #         string_builder += '<b>' + list_results['cuisine'][0]['name'] + '</b><br>\n'
+        #         string_builder += '<b>' + str(round(float(list_results['distance'])*100,2))+"km away" + '</b><br>\n'
+        #         string_builder += '<b>' + list_results['ranking'] + '</b><br><br>\n'
+        # print(string_builder)
+        # dispatcher.utter_message(string_builder)
 
+        url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.1852,-123.134370&radius=20000&type=restaurants&key=AIzaSyCcOEs2VSlM0YqEeXDPV4C6bVYABbRO2Nk&keyword=restaurant'
+
+        payload= {'key':'AIzaSyCcOEs2VSlM0YqEeXDPV4C6bVYABbRO2Nk','location':'49.1852,123.1355', 'radius':'10000', 'type':'restaurant'}
+
+        response = requests.request("GET", url).json()
+
+        results = []
+        string_builder1 = ''
+        for list_results in response['results']:
+            string_builder1 += '<b>' + list_results['name'] + '</b><br>\n'
+            string_builder1 += '<b>' + list_results['vicinity'] + '</b><br>\n'
+            string_builder1 += '<b>' + str(list_results['rating']) + 'km</b><br>\n'
+
+        dispatcher.utter_message(string_builder1)
         return []
+
 
 
 class ResetSlot(Action):

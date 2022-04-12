@@ -1,9 +1,66 @@
-## COSC310 - Solo Assignment #4
+# COSC310 - Solo Assignment #4
+The approach to this assignment was to implement two different Google APIs and have them work togther to return a list of 
+places near a user inputted hotel. In the actions.py file a new custom action class has been written called ActiongetNearby(action). After rasa returns a list some hotels that meet the user's criteria, they can then type the name of one of the hotels to find a list of restaurants nearby.  
+`Your input ->  What is nearby the Pinnacle Hotel Harbourfront hotel?`
+
+ The restaurant name, address, distance from hotel and rating are printed for each of the potentnial restaurants. In order to achieve this, first the hotel name needs to be parsed into an address and then to its corresponding latitude/longitude coordinates. The name to address conversion for the selected hotel is done by getting the corresponding address for the value using one of the ten predefined hotel slots. Since each of the printed hotel listings is stored in one of these slots as a (key : value pair) in the format (hotelname : address), these are converted to dictionaries and the key values compared against the user inputted value for the hotel of interest.
+
+ `hotel_returned_1: {"Radisson Hotel Vancouver Airport" : "8181 Cambie Road Richmond"}`  
+ `hotel_returned_2: {"Civic Hotel, Autograph Collection" : "13475 Central Avenue Surrey"}`  
+ `hotel_returned_3: {"Delta Hotels by Marriott Burnaby Conference Centre" : "4331 Dominion Street Burnaby"}`  
+ `hotel_returned_4: {"Pinnacle Hotel Harbourfront" : "1133 West Hastings Street Vancouver"}`  
+ `hotel_returned_5: {"EXchange Hotel Vancouver" : "475 Howe Street Vancouver"}`  
+ `hotel_returned_6: {"The Listel Hotel Vancouver" : "1300 Robson Street Vancouver"}`  
+ `hotel_returned_7: {"Sheraton Vancouver Wall Centre" : "1000 Burrard Street Vancouver"}`  
+ `hotel_returned_8: {"Executive Suites Hotel & Conference Center, Metro Vancouver" : "4201 Lougheed Highway Burnaby"}`  
+ `hotel_returned_9: {"Delta Hotels by Marriott Vancouver Downtown Suites" : "550 West Hastings Street Vancouver"}`  
+ `hotel_returned_10: {"Hotel BLU" : "177 Robson Street Vancouver"}`
+
+ `get_hotel = str(tracker.get_slot('nearby_hotel'))`
+
+ `i = 0`  
+ `address = 'Hotel address not found'`  
+    `while i < len(all_hotels):`  
+        `if(get_hotel.lower() in all_hotels[i]):`  
+            `address = all_hotelsDict[i][get_hotel.lower()]`  
+        `i += 1`
+
+ Next this address is used with the Geocoding API to get the corresponding latitude/longitude coordinates. Then these coordinates are used with the second API, Google Places, get a list of restaurants within 5km of the hotel, sorted by proximity.   
+
+
 
 ## Google Geocoding API
-This was implemented to convert addresses into latitude/longitude coordinates for uses with the second API
+The Google Geocoding API was implemented in order to convert addresses into latitude/longitude coordinates for use 
+with the next API discussed.
 
-## 
+This API was set up using RapidAPI, with the url:
+
+`url = https://google-maps-geocoding.p.rapidapi.com/geocode/json`
+
+The parameters and constants used for the GET request to this api were as follows, where address is the variable from above:
+
+`querystring = {"address":address, Richmond, BC V6X 3X9","language":"en"}`
+
+## Google Places API
+This API was set up directly with Google and called with the url:
+
+`url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json`
+
+The parameters and constants used for the GET request to this api were as follows:
+
+`parameters= {'key':'---', 'location':'latitude, longitude', 'radius':'5000', 'type':'restaurant'}`
+
+And then the GET request was made as follows:
+
+`response = requests.request("GET", url, parameters).json()`
+
+Then the following returned json object was iterated over to extract the desired values for each of the restaurants and add them to a string formatted for HTML output:
+
+`response['results']`
+
+Finally the string is passed to the flask server via rasa using:
+
+`dispatcher.utter_message(string_builder1)`
 
 ## Flight Booking Chatbot 
 

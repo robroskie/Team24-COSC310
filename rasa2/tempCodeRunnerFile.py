@@ -1,2 +1,4 @@
-    # if 'cuisine' not in list_results:
-    #     toadd = False
+print(response['features'])
+# print("\n")
+# print(response['features'][0]['properties'])
+# print("\n")
