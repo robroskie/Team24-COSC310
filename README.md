@@ -1,9 +1,9 @@
 # COSC310 - Solo Assignment #4
-The approach to this assignment was to implement two different Google APIs and have them work togther to return a list of 
+The approach to this assignment was to implement two different Google APIs and have them work together to return a list of 
 places near a user inputted hotel. In the actions.py file a new custom action class has been written called ActiongetNearby(action). After rasa returns a list some hotels that meet the user's criteria, they can then type the name of one of the hotels to find a list of restaurants nearby.  
 `Your input ->  What is nearby the Pinnacle Hotel Harbourfront hotel?`
 
- The restaurant name, address, distance from hotel and rating are printed for each of the potentnial restaurants. In order to achieve this, first the hotel name needs to be parsed into an address and then to its corresponding latitude/longitude coordinates. The name to address conversion for the selected hotel is done by getting the corresponding address for the value using one of the ten predefined hotel slots. Since each of the printed hotel listings is stored in one of these slots as a (key : value pair) in the format (hotelname : address), these are converted to dictionaries and the key values compared against the user inputted value for the hotel of interest.
+ The restaurant name, address, distance from hotel and rating are printed for each of the potentnial restaurants. In order to achieve this, first the hotel name needs to be parsed into an address and then to its corresponding latitude/longitude coordinates. The name to address conversion for the selected hotel is done by getting the corresponding address for the value using one of the ten predefined hotel slots. Since each of the printed hotel listings is stored in one of these slots as a (key : value pair) in the format (hotelname : address), these are converted to dictionaries and the key values compared against the user inputted value(get_hotel) for the hotel of interest.
 
  `hotel_returned_1: {"Radisson Hotel Vancouver Airport" : "8181 Cambie Road Richmond"}`  
  `hotel_returned_2: {"Civic Hotel, Autograph Collection" : "13475 Central Avenue Surrey"}`  
@@ -25,7 +25,7 @@ places near a user inputted hotel. In the actions.py file a new custom action cl
             `address = all_hotelsDict[i][get_hotel.lower()]`  
         `i += 1`
 
- Next this address is used with the Geocoding API to get the corresponding latitude/longitude coordinates. Then these coordinates are used with the second API, Google Places, get a list of restaurants within 5km of the hotel, sorted by proximity.   
+ Next this address is used with the Geocoding API to get the corresponding latitude/longitude coordinates. Then these coordinates are used with the second API, Google Places, to get a list of restaurants within 5km of the hotel, sorted by proximity.   
 
 
 
@@ -39,16 +39,16 @@ This API was set up using RapidAPI, with the url:
 
 The parameters and constants used for the GET request to this api were as follows, where address is the variable from above:
 
-`querystring = {"address":address, Richmond, BC V6X 3X9","language":"en"}`
+`querystring = {"address":address,"language":"en"}`
 
 ## Google Places API
 This API was set up directly with Google and called with the url:
 
 `url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json`
 
-The parameters and constants used for the GET request to this api were as follows:
+The parameters and constants used for the GET request to this API were as follows:
 
-`parameters= {'key':'---', 'location':'latitude, longitude', 'radius':'5000', 'type':'restaurant'}`
+`parameters = {'key':'---', 'location':lat, 'longitude':long, 'radius':'5000', 'type':'restaurant'}`
 
 And then the GET request was made as follows:
 
@@ -56,11 +56,17 @@ And then the GET request was made as follows:
 
 Then the following returned json object was iterated over to extract the desired values for each of the restaurants and add them to a string formatted for HTML output:
 
-`response['results']`
+`response['results']`  
+
+
+`            string_builder1 += '<b>' + list_results['name'] + '</b><br>\n'`  
+  `          string_builder1 += '<b>' + list_results['vicinity'] + '</b><br>\n'  `  
+         `   string_builder1 += '<b>' + str(list_results['rating']) + 'km</b><br>\n'` 
 
 Finally the string is passed to the flask server via rasa using:
 
-`dispatcher.utter_message(string_builder1)`
+`dispatcher.utter_message(string_builder1)`  
+
 
 ## Flight Booking Chatbot 
 
